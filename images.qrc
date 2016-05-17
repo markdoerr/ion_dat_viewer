@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/"/>
+    <qresource prefix="/linux">
+        <file alias="zoom_in">resources/images/zoomin.png</file>
+        <file alias="zoom_out">resources/images/zoomout.png</file>
+        <file alias="chip_loading">resources/images/chip_loading.png</file>
+    </qresource>
+</RCC>
