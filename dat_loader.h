@@ -44,13 +44,11 @@ public:
     int numY(void) {return num_y; }
     int numDataPoints(void) {return num_data_points; }
 
-    int* gaussDistribution(void);
-
 private:
     const int num_x = 110; // 11000;
     const int num_y = 70; //7000 ;
-    const int num_data_points  = 12;
-    int p[12] = {};
+    const int num_data_points  = 12; // remove hardcoded stuff
+    int p[12] = {};  // !!! remove hardcoded arrays
 };
 
 #endif // DAT_LOADER_H

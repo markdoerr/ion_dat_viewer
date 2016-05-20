@@ -6,7 +6,7 @@
  *
  * * author: mark doerr (mark.doerr@uni-greifswald.de)
  *
- * * date: 160518
+ * * date: 160520
  *
  * * Inspired by chip Qt4 example from Trolltech A/S.
  *
@@ -31,9 +31,13 @@
 #define CHIP_H
 
 #include <vector>
+#include <algorithm>
+#include <iostream>
 
 #include <QtGui/QColor>
 #include <QtGui/QGraphicsItem>
+#include <QtGui>
+#include <QtDebug>
 
 class WellPlot : public QGraphicsItem
 {
@@ -54,6 +58,8 @@ private:
     int line_left, line_offset;
 
     std::vector<double> line_vec ;
+
+    QVarLengthArray<QLineF, 12> lines; // !!!! remove hard coded array !!!
 
     QColor color;
     QList<QPointF> stuff;

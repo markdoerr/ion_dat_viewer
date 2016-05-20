@@ -6,7 +6,7 @@
  *
  * * author: mark doerr (mark.doerr@uni-greifswald.de)
  *
- * * date: 160518
+ * * date: 160520
  *
  * * Inspired by chip Qt4 example from Trolltech A/S.
  *
@@ -64,12 +64,9 @@ DatLoader::DatLoader(std::vector<double>& raw_data )
 
     std::normal_distribution<double> distribution(double(num_data_points)/2, 2.0);
 
-
     for (int i=0; i <  num_x * num_y; ++i) {
 
-       std::fill(p, p+num_data_points, 0);
-
-       // int rand_num = rand()%(int(max_y)-int(min_y) + 1) + int(min_y);
+        std::fill(p, p+num_data_points, 0);
 
         // generating max_hight of function
         std::uniform_int_distribution<int> uniform_dist(min_y, max_y);
@@ -82,41 +79,7 @@ DatLoader::DatLoader(std::vector<double>& raw_data )
         }
 
         for (int i=0; i < num_data_points; ++i) {
-//            std::cout << "item1:" << p[i] << std::endl;
              raw_data.push_back(p[i] ); // distribution(generator)
         }
     }
-
-    std::cout << "in dat load - size:" << raw_data.size() << std::endl;
-
-//    int k = 0;
-//    for (std::vector<double>::iterator it=raw_data.begin() ; it != raw_data.end() ; ++it) {
-//          std::cout << "raw dat: [" << k << "]: " << *it << std::endl;
-//          ++k;
-//        }
-}
-
-int* DatLoader::gaussDistribution(void)
-{
-     const int nrolls=10000;  // number of experiments
-     const int nstars=100;    // maximum number of stars to distribute
-
-     std::default_random_engine generator;
-     std::normal_distribution<double> distribution(5.0,2.0);
-
-     int p[10]={};
-
-     for (int i=0; i<nrolls; ++i) {
-       double number = distribution(generator);
-       if ((number>=0.0)&&(number<10.0)) ++p[int(number)];
-     }
-
-     std::cout << "normal_distribution (5.0,2.0):" << std::endl;
-
-     for (int i=0; i<10; ++i) {
-       std::cout << i << "-" << (i+1) << ": ";
-       std::cout << std::string(p[i]*nstars/nrolls,'*') << std::endl;
-     }
-
-     return p;
 }
