@@ -1,43 +1,32 @@
+
 /****************************************************************************
-**
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
-**
-** This file is part of the demonstration applications of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:LGPL$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://qt.digia.com/licensing.  For further information
-** use the contact form at http://qt.digia.com/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Digia gives you certain additional
-** rights.  These rights are described in the Digia Qt LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 3.0 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU General Public License version 3.0 requirements will be
-** met: http://www.gnu.org/copyleft/gpl.html.
-**
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
+ *
+ * * ion_dat_viewer - an Ion Torrent Dat file viewer based on Qt
+ *
+ * * version: v0.1.0
+ *
+ * * author: mark doerr (mark.doerr@uni-greifswald.de)
+ *
+ * * date: 160518
+ *
+ * * Inspired by chip Qt4 example from Trolltech A/S.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ *
+ ***************************************************************************/
 
 #include "well_plot.h"
 
@@ -48,15 +37,22 @@
 #include <QtGui>
 #include <QtDebug>
 
-WellPlot::WellPlot(int x, int y, std::vector<double>& line_vec)
+WellPlot::WellPlot(int x, int y, std::vector<double>& line_vec, int line_left, int line_offset)
 {
     this->x = x;
     this->y = y;
+    this->line_left = line_left;
+    this->line_offset = line_offset;
+
     this->line_vec = line_vec;
 
-    std::vector<double>::const_iterator  max_y = std::max_element(line_vec.begin(), line_vec.end());
+    //std::vector<double>::const_iterator  max_y = std::max_element(line_vec.begin(), line_vec.end());
 
-    color = QColor::fromHsv( int(*max_y), 255, 255,  255 );
+    std::vector<double>::const_iterator   max_y = std::max_element(line_vec.begin() + line_left, line_vec.begin() + line_left + line_offset);
+
+    //qDebug() << "ll:" << line_left << " offs:" << line_offset << " max:" << *max_y;
+
+    color = QColor::fromHsv( int(60 - *max_y ), 255, 255,  255 );
 
     setZValue((x + y) % 2);
 
@@ -86,23 +82,15 @@ QPainterPath WellPlot::shape() const
 
 void WellPlot::drawFunctionLines(QPainter *painter, qreal lod)
 {
-    int xmin = 15;
-    int xmax = 75;
-    int ymin = 65;
-    int ymax = 15;
+    qreal xmin = 15.0;
+    qreal ymin = 65.0;
 
-    qreal stepsize = 10.0;
+    qreal stepsize = 6.0;
 
-    const int nlines = 3;
-
-//    for (std::vector<double>::iterator it=line_vec.begin() ; it != line_vec.end() ; ++it) {
-//          std::cout << "item:" << *it << std::endl;
-//        }
-
-   // qDebug() << "nlines" << nlines << ": " << this->line_vec[0] ;
+    const int nlines = 12;
 
     // Draw lines
-    QVarLengthArray<QLineF, nlines+3> lines;
+    QVarLengthArray<QLineF, nlines> lines;
 
 //    if (lod >= 0.5) {
 //        for (int i = 0; i <= 10; i += (lod > 0.5 ? 1 : 2)) {
@@ -114,19 +102,35 @@ void WellPlot::drawFunctionLines(QPainter *painter, qreal lod)
 //            lines.append(QLineF(94, 18 + i * 5, 102, 18 + i * 5));
 //        }
 //    }
+
     if (lod >= 0.4) {
-        lines.append(QLineF(14,65,15,65));
-        // line_vec.size()
+        lines.append(QLineF(xmin-1.0, ymin, xmin, ymin));
 
-        std::vector<int>::size_type i = 0;
-        std::vector<int>::size_type i_max = i + nlines;
+        int i = 0;
+        int i_left = i + line_left;
 
-        lines.append(QLineF( xmin+qreal(0) * stepsize ,ymin - this->line_vec[i], xmin + qreal(1) * stepsize ,ymin - this->line_vec[i+1]));
+        std::vector<double>::size_type vi = 0;
 
-        for ( i+=2; i < i_max; ++i )
+       // lines.append(QLineF( xmin+qreal(0) * stepsize, ymin - this->line_vec[vi + i_left], xmin + qreal(1) * stepsize ,ymin - this->line_vec[i_curr+1]));
+
+        lines.append(QLineF( xmin, ymin, xmin + stepsize, ymin - this->line_vec[vi+i_left]));
+
+        for ( i=1 ; i < line_offset-1 ; ++i )
         {
-            lines.append(QLineF( xmin+qreal(i-1) * stepsize ,ymin - this->line_vec[i-1], xmin + qreal(i) * stepsize ,ymin - this->line_vec[i]));
+            lines.append(QLineF( xmin + qreal(i) * stepsize, ymin - this->line_vec[vi+line_left+i], xmin + qreal(i+1) * stepsize, ymin - this->line_vec[vi+line_left+i+1]));
         }
+
+/*
+        std::vector<double>::size_type i = 0;
+        std::vector<double>::size_type i_curr = i + line_left;
+
+        lines.append(QLineF( xmin+qreal(0) * stepsize ,ymin - this->line_vec[i_curr], xmin + qreal(1) * stepsize ,ymin - this->line_vec[i_curr+1]));
+
+        for ( i_curr+=2; i_curr < i + line_offset; ++i_curr )
+        {
+            lines.append(QLineF( xmin+qreal(i_curr-1) * stepsize ,ymin - this->line_vec[i_curr-1], xmin + qreal(i_curr) * stepsize ,ymin - this->line_vec[i_curr]));
+        }
+*/
     }
     painter->drawLines(lines.data(), lines.size());
 

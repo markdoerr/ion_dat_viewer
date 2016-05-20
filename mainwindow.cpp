@@ -1,43 +1,31 @@
 /****************************************************************************
-**
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
-**
-** This file is part of the demonstration applications of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:LGPL$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://qt.digia.com/licensing.  For further information
-** use the contact form at http://qt.digia.com/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Digia gives you certain additional
-** rights.  These rights are described in the Digia Qt LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 3.0 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU General Public License version 3.0 requirements will be
-** met: http://www.gnu.org/copyleft/gpl.html.
-**
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
+ *
+ * * ion_dat_viewer - an Ion Torrent Dat file viewer based on Qt
+ *
+ * * version: v0.1.0
+ *
+ * * author: mark doerr (mark.doerr@uni-greifswald.de)
+ *
+ * * date: 160518
+ *
+ * * Inspired by chip Qt4 example from Trolltech A/S.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ *
+ ***************************************************************************/
 
 #include "mainwindow.h"
 #include "well_view.h"
@@ -54,12 +42,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     //std::vector<double>* line_vec = dat_data->data();
 
-    std::cout << "normal_distribution (5.0,2.0):" << std::endl;
+    std::cout << "raw data created"  << std::endl;
 
-    for (std::vector<double>::iterator it=raw_data.begin() ; it != raw_data.end() ; ++it) {
-         // std::cout << i << "-" << (i+1) << ": ";
-          std::cout << "item:" << *it << std::endl; //<< std::string(p[i]*nstars/nrolls,'*') << std::endl;
-        }
+    std::cout << "main window normal_distribution (5.0,2.0) - size:" << raw_data.size() << std::endl;
+
+//    for (std::vector<double>::iterator it=raw_data.begin() ; it != raw_data.end() ; ++it) {
+//          std::cout << "ret. item:" << *it << std::endl;
+//        }
 
     populateWellPlots();
 
@@ -85,36 +74,57 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
 void MainWindow::populateWellPlots()
 {
-    const int max_points = 10;
-    const int min_well_coordinate_x = 11000;
-    const int min_well_coordinate_y = 7000;
+    const int max_points = 12;
+    const int min_well_coordinate_x = 2200; //= 11000;
+    const int min_well_coordinate_y = 1400; //7000;
     const int well_plot_distance_x = 110;
     const int well_plot_distance_y = 70;
 
-    std::vector<double> line_vec;
+//    std::vector<double>::iterator it=raw_data.begin();
+//    std::vector<double>::iterator it_begin = it;
+//    std::vector<double>::iterator it_max = it + max_points;
 
-    std::vector<double>::iterator it=raw_data.begin();
-    std::vector<double>::iterator it_max = it + max_points;
-
-    for ( it ; it < it_max || it != raw_data.end() ; ++it) line_vec.push_back(*it);
+    // || it != raw_data.end()
+    //for ( it ; it < it_max  ; ++it) line_vec.push_back(*it);
 
     // Populating the scene
     int n_items = 0;
-    int xx = 0;
+    int x_item_pos = 0;
+
+    const int point_offset = 12;
+
+    int line_left = 0;
+    int max_rep = 7699;
+
+
+    qDebug() << "pop";
 
     for (int i = -min_well_coordinate_x; i < min_well_coordinate_x; i +=  well_plot_distance_x) {
-        ++xx;
-        int yy = 0;
-        for (int j = -min_well_coordinate_y; j < min_well_coordinate_y; j += well_plot_distance_y) {
-            ++yy;
+        ++x_item_pos;
 
-            WellPlot *item = new WellPlot(xx, yy, line_vec);
+        int y_item_pos = 0;
+
+        if (line_left > max_rep) { line_left = 0;}
+
+        for (int j = -min_well_coordinate_y; j < min_well_coordinate_y; j += well_plot_distance_y) {
+            ++y_item_pos;
+
+            if (line_left > max_rep) { line_left = 0;}
+
+          // qDebug() << "line:" << *it << "-" << *(it+1) << "-" << *(it+2) << "-" << *(it+3) << "-" << *(it+4) << "-" << *(it+5)  << "y-item pos:" << y_item_pos ;
+
+//           for(int lp=line_left; lp < line_left + point_offset; lp ++ ){
+//               qDebug() << "line-[" << lp << "]" << raw_data[lp] ;
+//           }
+           WellPlot *item = new WellPlot(x_item_pos, y_item_pos, raw_data, line_left, point_offset);
 
            item->setPos(QPointF(i, j));
            scene->addItem(item);
 
-            ++n_items;
+           ++n_items;
+           line_left = line_left + point_offset;
         }
+        line_left = line_left + point_offset;
     }
 }
 
