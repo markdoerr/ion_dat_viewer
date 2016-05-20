@@ -47,13 +47,12 @@ public:
     MainWindow(QWidget *parent = 0);
     
 private:
-
     std::vector<double> raw_data;
 
     void setupMatrix();
     void populateWellPlots();
 
-    DatLoader* dat_data;
+    const DatLoader* dat_data;
 
     QGraphicsScene *scene;
     QSplitter *h1Splitter;

@@ -45,8 +45,8 @@ public:
     int numDataPoints(void) {return num_data_points; }
 
 private:
-    const int num_x = 110; // 11000;
-    const int num_y = 70; //7000 ;
+    const int num_x = 1100;
+    const int num_y = 700;
     const int num_data_points  = 12; // remove hardcoded stuff
     int p[12] = {};  // !!! remove hardcoded arrays
 };

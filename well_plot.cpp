@@ -30,14 +30,12 @@
 
 #include "well_plot.h"
 
-WellPlot::WellPlot(int x, int y, std::vector<double>& line_vec, int line_left, int line_offset)
+WellPlot::WellPlot(int x, int y, std::vector<double>& line_vector, int line_left, int line_offset) : line_vec(line_vector)
 {
     this->x = x;
     this->y = y;
     this->line_left = line_left;
     this->line_offset = line_offset;
-
-    this->line_vec = line_vec;
 
     std::vector<double>::const_iterator max_y = std::max_element(line_vec.begin() + line_left,
                                                                  line_vec.begin() + line_left + line_offset);

@@ -42,7 +42,7 @@
 class WellPlot : public QGraphicsItem
 {
 public:
-    WellPlot(int x, int y, std::vector<double> &line_vec, int line_left, int line_offset);
+    WellPlot(int x, int y, std::vector<double> &line_vector, int line_left, int line_offset);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
@@ -57,7 +57,7 @@ private:
     int x, y;
     int line_left, line_offset;
 
-    std::vector<double> line_vec ;
+    std::vector<double> & line_vec ;
 
     QVarLengthArray<QLineF, 12> lines; // !!!! remove hard coded array !!!
 

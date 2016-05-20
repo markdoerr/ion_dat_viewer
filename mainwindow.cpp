@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
     scene = new QGraphicsScene;
 
-    dat_data = new DatLoader(raw_data);
+    dat_data = new const DatLoader(raw_data);
 
     std::cout << "main window: raw data created normal_distribution (5.0,2.0)\n\tdata size:" << raw_data.size() << std::endl;
 
@@ -69,8 +69,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 void MainWindow::populateWellPlots()
 {
     const int point_offset = 12;  // !!!! remove hardcode offset !!!
-    const int min_well_coordinate_x = 2200; //= 11000;
-    const int min_well_coordinate_y = 1400; //7000;
+    const int min_well_coordinate_x = 11000;
+    const int min_well_coordinate_y = 7000;
     const int well_plot_distance_x = 110;
     const int well_plot_distance_y = 70;
 
@@ -79,7 +79,7 @@ void MainWindow::populateWellPlots()
     int x_item_pos = 0;
 
     int line_left = 0;
-    int max_rep = 7699;
+    int max_rep = 769999;
 
     for (int i = -min_well_coordinate_x; i < min_well_coordinate_x; i +=  well_plot_distance_x) {
         ++x_item_pos;
