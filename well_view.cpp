@@ -2,11 +2,11 @@
  *
  * * ion_dat_viewer - an Ion Torrent Dat file viewer based on Qt
  *
- * * version: v0.1.0
+ * * version: v0.1.1
  *
  * * author: mark doerr (mark.doerr@uni-greifswald.de)
  *
- * * date: 160518
+ * * date: 160521
  *
  * * Inspired by chip Qt4 example from Trolltech A/S.
  *
@@ -80,7 +80,7 @@ WellView::WellView(const QString &name, QWidget *parent)
     zoomSlider->setMaximum(500);
     zoomSlider->setInvertedAppearance(TRUE);
     //zoomSlider->setValue(250);
-    zoomSlider->setValue(50);
+    zoomSlider->setValue(0);
     zoomSlider->setTickPosition(QSlider::TicksRight);
 
     // Zoom slider layout
@@ -179,7 +179,8 @@ void WellView::setResetButtonEnabled()
 
 void WellView::setupMatrix()
 {
-    qreal scale = qPow(qreal(2), (zoomSlider->value() - 250) / qreal(50));
+    const qreal scale_fact = 40.0; // 50.0
+    qreal scale = qPow(qreal(2), (zoomSlider->value() - 250) / scale_fact );
 
     QMatrix matrix;
     matrix.scale(scale, scale);

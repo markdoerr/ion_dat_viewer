@@ -3,11 +3,11 @@
  *
  * * ion_dat_viewer - an Ion Torrent Dat file viewer based on Qt
  *
- * * version: v0.1.0
+ * * version: v0.1.1
  *
  * * author: mark doerr (mark.doerr@uni-greifswald.de)
  *
- * * date: 160520
+ * * date: 160521
  *
  * * Inspired by chip Qt4 example from Trolltech A/S.
  *
@@ -65,8 +65,6 @@ void WellPlot::drawFunctionLines(QPainter *painter, qreal lod)
 {
     qreal xmin = 15.0;
     qreal ymin = 65.0;
-
-    qreal stepsize = 6.0;  // x drawing stepsize
 
     // Drawing lines
     if (lod >= 0.4) {

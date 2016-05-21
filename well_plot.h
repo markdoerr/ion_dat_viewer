@@ -2,11 +2,11 @@
  *
  * * ion_dat_viewer - an Ion Torrent Dat file viewer based on Qt
  *
- * * version: v0.1.0
+ * * version: v0.1.1
  *
  * * author: mark doerr (mark.doerr@uni-greifswald.de)
  *
- * * date: 160520
+ * * date: 160521
  *
  * * Inspired by chip Qt4 example from Trolltech A/S.
  *
@@ -44,6 +44,8 @@ class WellPlot : public QGraphicsItem
 public:
     WellPlot(int x, int y, std::vector<double> &line_vector, int line_left, int line_offset);
 
+    void setStepSize(qreal step_size) {this->stepsize = step_size;}
+
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
@@ -56,6 +58,8 @@ protected:
 private:
     int x, y;
     int line_left, line_offset;
+
+    qreal stepsize = 6.0;  // x drawing stepsize
 
     std::vector<double> & line_vec ;
 

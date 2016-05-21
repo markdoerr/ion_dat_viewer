@@ -2,11 +2,11 @@
  *
  * * ion_dat_viewer - an Ion Torrent Dat file viewer based on Qt
  *
- * * version: v0.1.0
+ * * version: v0.1.1
  *
  * * author: mark doerr (mark.doerr@uni-greifswald.de)
  *
- * * date: 160518
+ * * date: 160521
  *
  * * Inspired by chip Qt4 example from Trolltech A/S.
  *
@@ -35,20 +35,24 @@
 #include <iostream>
 #include <random>
 
+#define NUM_DAT_POINTS 12
+#define NUM_X 1200
+#define NUM_Y 833
+
 class DatLoader
 {
 public:
     DatLoader(std::vector<double>& raw_data );
 
-    int numX(void) {return num_x; }
-    int numY(void) {return num_y; }
-    int numDataPoints(void) {return num_data_points; }
+    int numX(void) const {return num_x; }
+    int numY(void) const  {return num_y; }
+    int numDataPoints(void) const {return num_data_points; }
 
 private:
-    const int num_x = 1100;
-    const int num_y = 700;
-    const int num_data_points  = 12; // remove hardcoded stuff
-    int p[12] = {};  // !!! remove hardcoded arrays
+    const int num_x = NUM_X;
+    const int num_y = NUM_Y;
+    const int num_data_points  = NUM_DAT_POINTS; // remove hardcoded stuff
+    int p[NUM_DAT_POINTS] = {};  // !!! remove hardcoded arrays
 };
 
 #endif // DAT_LOADER_H

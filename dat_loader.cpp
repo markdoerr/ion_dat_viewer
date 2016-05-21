@@ -2,11 +2,11 @@
  *
  * * ion_dat_viewer - an Ion Torrent Dat file viewer based on Qt
  *
- * * version: v0.1.0
+ * * version: v0.1.1
  *
  * * author: mark doerr (mark.doerr@uni-greifswald.de)
  *
- * * date: 160520
+ * * date: 160521
  *
  * * Inspired by chip Qt4 example from Trolltech A/S.
  *

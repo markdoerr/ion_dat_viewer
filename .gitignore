@@ -4,6 +4,12 @@
 *.o
 *.obj
 
+moc_*
+qrc_*
+
+Makefile
+
+
 # Precompiled Headers
 *.gch
 *.pch
