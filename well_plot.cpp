@@ -101,6 +101,7 @@ void WellPlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
     // low detail level plotting
     if (lod < 0.2) {
+        setFlags(0); // Allow dragging when zoomed out
         if (lod < 0.125) {
             painter->fillRect(QRectF(0, 0, 110, 70), fillColor);
             return;
@@ -154,6 +155,8 @@ void WellPlot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
         painter->drawPath(path);
         painter->setPen(p);
     }
+    
+    setFlags(ItemIsSelectable);
 }
 
 void WellPlot::mousePressEvent(QGraphicsSceneMouseEvent *event)
