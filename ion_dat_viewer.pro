@@ -2,15 +2,22 @@ RESOURCES += images.qrc
 
 HEADERS += mainwindow.h well_plot.h \
     well_view.h \
-    dat_loader.h
+    dat_loader.h \
+    DatFile.h \
+    dat_headers.h \
+    byteswaputils.h
 SOURCES += main.cpp \
     well_view.cpp \
-    dat_loader.cpp
+    dat_loader.cpp \
+    DatFile.cpp
 SOURCES += mainwindow.cpp well_plot.cpp
 
 QMAKE_CXXFLAGS += -std=c++11
 
 contains(QT_CONFIG, opengl):QT += opengl
+QT += gui
+QT += printsupport
+QT += widgets
 
 build_all:!build_pass {
     CONFIG -= build_all

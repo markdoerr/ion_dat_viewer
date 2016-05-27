@@ -2,13 +2,9 @@
  *
  * * ion_dat_viewer - an Ion Torrent Dat file viewer based on Qt
  *
- * * version: v0.1.1
+ * * author: ben caller (bcaller {at} gmail)
  *
- * * author: mark doerr (mark.doerr@uni-greifswald.de)
- *
- * * date: 160521
- *
- * * Inspired by chip Qt4 example from Trolltech A/S.
+ * * date: 160525
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,34 +23,51 @@
  *
  ***************************************************************************/
 
-#ifndef DAT_LOADER_H
-#define DAT_LOADER_H
+#ifndef FILE_HANDLING_H
+#define FILE_HANDLING_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <memory.h>
+#include <limits.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-#include <fstream>
-#include <vector>
-#include <iostream>
-#include <random>
 #include "dat_headers.h"
 
-#define NUM_DAT_POINTS 5
+#ifndef WIN32
+#define MY_FILE_HANDLE  int
+#define FNAME char*
+#else
+#include <windows.h>
+#define MY_FILE_HANDLE HANDLE
+#define FNAME LPWSTR
+#endif
 
-class DatLoader
+class DatFile
 {
 public:
-    DatLoader(std::vector<double>& raw_data );
-
-    int numX(void) const {return this->expt_header.cols; }
-    int numY(void) const  {return this->expt_header.rows; }
-    int numDataPoints(void) const {return num_data_points; }
+    DatFile(FNAME fname);
+    char *GetFileData (int offset, int len);
+    void GetHeader(struct dat_file_header &hdr);
+    void GetExperimentHeader(struct experiment_header &hdr);
+    void GetFrameHeader(int offset, struct frame_header &hdr);
+    ~DatFile();
 
 private:
-    struct dat_file_header df_header;
-    struct experiment_header expt_header;
-    const int num_data_points  = NUM_DAT_POINTS; // remove hardcoded stuff
-    int p[NUM_DAT_POINTS] = {};  // !!! remove hardcoded arrays
+    char *CurrentAllocPtr = NULL;
+    int CurrentAllocLen = 0;
+    int PageSize;
+    int CurrentOffset = 0;
+    int fileLen;
+    MY_FILE_HANDLE hFile;
+  #ifdef WIN32
+    MY_FILE_HANDLE mFile;
+  #endif
+    void FreeFileData();
 };
 
-#endif // DAT_LOADER_H
 
 
-
+#endif // FILE_HANDLING_H
