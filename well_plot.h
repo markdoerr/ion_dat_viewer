@@ -63,8 +63,6 @@ private:
 
     std::vector<double> & line_vec ;
 
-    QVarLengthArray<QLineF, 12> lines; // !!!! remove hard coded array !!!
-
     QColor color;
     QList<QPointF> stuff;
     void drawFunctionLines(QPainter *painter, qreal lod);
