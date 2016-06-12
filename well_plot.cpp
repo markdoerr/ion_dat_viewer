@@ -45,8 +45,6 @@ WellPlot::WellPlot(int x, int y, std::vector<double>& line_vector, int line_left
 
     setZValue((x + y) % 2);
 
-    //setFlags(ItemIsSelectable | ItemIsMovable);
-    setFlags(ItemIsSelectable );
     setAcceptsHoverEvents(true);
 }
 
