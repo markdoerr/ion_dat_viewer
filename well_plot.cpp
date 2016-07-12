@@ -29,6 +29,7 @@
  ***************************************************************************/
 
 #include "well_plot.h"
+#include "dat_loader.h"
 
 WellPlot::WellPlot(int x, int y, std::vector<double>& line_vector, int line_left, int line_offset) : line_vec(line_vector)
 {
@@ -44,8 +45,6 @@ WellPlot::WellPlot(int x, int y, std::vector<double>& line_vector, int line_left
 
     setZValue((x + y) % 2);
 
-    //setFlags(ItemIsSelectable | ItemIsMovable);
-    setFlags(ItemIsSelectable );
     setAcceptsHoverEvents(true);
 }
 
@@ -68,6 +67,7 @@ void WellPlot::drawFunctionLines(QPainter *painter, qreal lod)
 
     // Drawing lines
     if (lod >= 0.4) {
+        QVarLengthArray<QLineF, NUM_DAT_POINTS> lines;
         lines.append(QLineF(xmin, ymin, xmin, ymin));
 
         int i = 0;
@@ -84,8 +84,9 @@ void WellPlot::drawFunctionLines(QPainter *painter, qreal lod)
                                  xmin + qreal(i+1) * stepsize,
                                  ymin - this->line_vec[vi+line_left+i+1]));
         }
+        
+        painter->drawLines(lines.data(), lines.size());
     }
-    painter->drawLines(lines.data(), lines.size());
 
 }
 

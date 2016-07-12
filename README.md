@@ -36,7 +36,7 @@ displaying 12 000 000 data points (12 data points per well).
 
 - remove hard coded variables
 - optimize memory usage further
-- DAT file loader (currently dummy only)
+- DAT file loader (**you must change the file path manually** in [dat_loader.cpp](https://github.com/bcaller/ion_dat_viewer/blob/master/dat_loader.cpp#L51))
 - nicer colour scheme (blue -> red )
 - real QtWindow with file menus ...
 - Max-Min-Value display
